@@ -48,5 +48,64 @@ namespace Core.Extensions.ModelConversion
             };
             return command;
         }
+        /// <summary>
+        /// Create a task for member
+        /// </summary>
+        /// <param name="model">model: Task instance</param>
+        /// <returns></returns>
+        public static CreateTaskCommand ToCreateTaskCommand(this TaskViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            CreateTaskCommand command = new CreateTaskCommand
+            {
+                Subject = model.Subject,
+                AssignedMemberId = model.Member?.Id
+            };
+            return command;
+        }
+        /// <summary>
+        /// Update a task once completed
+        /// </summary>
+        /// <param name="model">model: Task instance</param>
+        /// <returns></returns>
+        public static CompleteTaskCommand ToCompleteTaskCommand(this TaskViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            CompleteTaskCommand command = new CompleteTaskCommand
+            {
+                Id = model.Id
+            };
+            return command;
+        }
+        /// <summary>
+        /// Assign a task to particular member.
+        /// </summary>
+        /// <param name="model">model: Task instance</param>
+        /// <returns></returns>
+        public static AssignTaskCommand ToAssignTaskCommand(this TaskViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (model.Member?.Id == null)
+            {
+                throw new ArgumentException("No member found ", nameof(TaskViewModel.Member.Id));
+            }
+            AssignTaskCommand command = new AssignTaskCommand
+            {
+                Id = model.Id,
+                AssignedMemberId = model.Member.Id
+            };
+            return command;
+        }
+
+        
     }
 }

@@ -2,19 +2,20 @@
 @inject HttpClient http
 @using Domain.ViewModel
 @using WebClient.Abstractions
-@using WebClient.Shared.Models
 @using WebClient.Components
 @using WebClient.Shared.Components
 @inject IMemberDataService memberService;
 @inject ITaskDataService taskDataService;
 
-@if(isLoaded) {
+@if (isLoaded)
+{
     <div class="page-wrapper row m-0 col-12 p-0">
         <div class="col-4 p-0">
             <LeftMenu />
         </div>
         <div class="col-8 p-0">
-            @if (showLister) {
+            @if (showLister)
+            {
                 <div class="col-10 offset-1 pt-5">
                     <div class="row m-0">
                         <Field class="col-9 p-0 custom-input">
@@ -29,10 +30,11 @@
                     <TaskListerComponent />
                 </div>
             }
+            @* -- Unwanted if condition. Hence, I commented that
             @if(false) {
                 <div class="col-10 offset-1 pt-5">
                 </div>
-            }
+            }*@
         </div>
     </div>
 }
@@ -41,8 +43,6 @@
 
     public List<MemberVm> members;
     public string newTask;
-
-
     private bool isLoaded;
     private bool showLister;
 
@@ -54,24 +54,18 @@
     }
 
 
-    
-
     private void OnAddItem()
     {
-        var task = new TaskModel()
+        TaskViewModel task = new TaskViewModel()
         {
-            Id = Guid.NewGuid(),
-            IsDone = false,
-            Text = newTask
+            Subject = newTask,
+            Member = memberService.SelectedMember,
+			IsComplete = false
         };
 
         newTask = string.Empty;
 
-        if (memberService.SelectedMember != null)
-        {
-            task.Member = memberService.SelectedMember.Id;
-        }
-        taskDataService.AddTask(task);
+        taskDataService.CreateTask(task);
         StateHasChanged();
     }
 

@@ -14,7 +14,8 @@ namespace WebApi.Validators.Commands
             RuleFor(x => x.FirstName).NotNull().NotEmpty();
             RuleFor(x => x.LastName).NotNull().NotEmpty();
             RuleFor(x => x.Email).EmailAddress().NotNull().NotEmpty();
-            RuleFor(x => x.FirstName).NotNull().NotEmpty();
+            //This was written twise. Hence, I commented it
+            //RuleFor(x => x.FirstName).NotNull().NotEmpty();
         }
     }
 }
